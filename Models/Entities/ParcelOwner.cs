@@ -4,9 +4,9 @@ namespace LandRegistrySystem.Models.Entities;
 
 public class ParcelOwner : BaseEntity
 {
-    public int ParcelId { get; set; }
-
-    public Parcel Parcel { get; set; } = null!;
+    public int? ParcelId { get; set; }
+   
+    public Parcel? Parcel { get; set; } = null!;
 
     public int PersonId { get; set; }
 
