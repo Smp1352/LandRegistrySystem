@@ -1,0 +1,99 @@
+﻿@page
+@model LandRegistrySystem.Pages.Parcels.EditModel
+@{
+    ViewData["Title"] = "ویرایش قطعه";
+}
+
+<div class="container mt-4" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>ویرایش قطعه</h1>
+                <a asp-page="./Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-right"></i> بازگشت به لیست
+                </a>
+            </div>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        <input type="hidden" asp-for="Parcel.Id" />
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Parcel.PersianName" class="form-label"></label>
+                                    <input asp-for="Parcel.PersianName" class="form-control" />
+                                    <span asp-validation-for="Parcel.PersianName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Parcel.EnglishName" class="form-label"></label>
+                                    <input asp-for="Parcel.EnglishName" class="form-control" />
+                                    <span asp-validation-for="Parcel.EnglishName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label asp-for="Parcel.Definition" class="form-label"></label>
+                                    <textarea asp-for="Parcel.Definition" class="form-control" rows="2"></textarea>
+                                    <span asp-validation-for="Parcel.Definition" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Parcel.ParcelCode" class="form-label"></label>
+                                    <input asp-for="Parcel.ParcelCode" class="form-control" />
+                                    <span asp-validation-for="Parcel.ParcelCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Parcel.Area" class="form-label"></label>
+                                    <input asp-for="Parcel.Area" class="form-control" step="0.01" />
+                                    <span asp-validation-for="Parcel.Area" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label asp-for="Parcel.Description" class="form-label"></label>
+                                    <textarea asp-for="Parcel.Description" class="form-control" rows="2"></textarea>
+                                    <span asp-validation-for="Parcel.Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-page="./Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-right"></i> بازگشت
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i> ذخیره تغییرات
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,69 @@
+﻿@page
+@model LandRegistrySystem.Pages.Parcels.DeleteModel
+@{
+    ViewData["Title"] = "حذف قطعه";
+}
+
+<div class="container mt-4" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="text-danger">حذف قطعه</h1>
+                <a asp-page="./Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-right"></i> بازگشت به لیست
+                </a>
+            </div>
+
+            @if (Model.Parcel == null)
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> قطعه مورد نظر یافت نشد.
+                </div>
+            }
+            else
+            {
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-exclamation-circle"></i>
+                            آیا از حذف این قطعه اطمینان دارید؟
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-info-circle"></i>
+                            با حذف این قطعه، تمام اطلاعات مرتبط با آن نیز حذف خواهد شد.
+                            این عملیات غیرقابل بازگشت است.
+                        </div>
+
+                        <dl class="row">
+                            <dt class="col-sm-3">کد قطعه</dt>
+                            <dd class="col-sm-9">@Model.Parcel.ParcelCode</dd>
+
+                            <dt class="col-sm-3">نام فارسی</dt>
+                            <dd class="col-sm-9">@Model.Parcel.PersianName</dd>
+
+                            <dt class="col-sm-3">استان</dt>
+                            <dd class="col-sm-9">@Model.Parcel.ProvinceName</dd>
+
+                            <dt class="col-sm-3">شهرستان</dt>
+                            <dd class="col-sm-9">@Model.Parcel.CountyName</dd>
+
+                            <dt class="col-sm-3">مساحت</dt>
+                            <dd class="col-sm-9">@Model.Parcel.Area?.ToString("N2")</dd>
+                        </dl>
+
+                        <form method="post" class="d-flex justify-content-end gap-2">
+                            <a asp-page="./Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> انصراف
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> تأیید حذف
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

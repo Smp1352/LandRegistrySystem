@@ -265,7 +265,7 @@ namespace LandRegistrySystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ParcelId = table.Column<int>(type: "int", nullable: false),
+                    ParcelId = table.Column<int>(type: "int", nullable: true),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -284,8 +284,7 @@ namespace LandRegistrySystem.Migrations
                         name: "FK_Attachments_Parcels_ParcelId",
                         column: x => x.ParcelId,
                         principalTable: "Parcels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -294,8 +293,8 @@ namespace LandRegistrySystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ParcelId = table.Column<int>(type: "int", nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    ParcelId = table.Column<int>(type: "int", nullable: true),
+                    PersonId = table.Column<int>(type: "int", nullable: true),
                     RelationWithOwner = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OwnershipConfirm = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -312,14 +311,12 @@ namespace LandRegistrySystem.Migrations
                         name: "FK_ParcelOperator_Parcels_ParcelId",
                         column: x => x.ParcelId,
                         principalTable: "Parcels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ParcelOperator_Persons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Persons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -328,8 +325,8 @@ namespace LandRegistrySystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ParcelId = table.Column<int>(type: "int", nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    PersonId = table.Column<int>(type: "int", nullable: true),
+                    ParcelId = table.Column<int>(type: "int", nullable: true),
                     OwnershipUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OwnershipQuantity = table.Column<double>(type: "float", nullable: false),
                     OwnershipProof = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -347,14 +344,12 @@ namespace LandRegistrySystem.Migrations
                         name: "FK_ParcelOwner_Parcels_ParcelId",
                         column: x => x.ParcelId,
                         principalTable: "Parcels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ParcelOwner_Persons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Persons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

@@ -1,0 +1,80 @@
+﻿@page
+@model LandRegistrySystem.Pages.Parcels.DetailsModel
+@{
+    ViewData["Title"] = "جزئیات قطعه";
+}
+
+<div class="container mt-4" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>جزئیات قطعه</h1>
+                <div>
+                    <a asp-page="./Edit" asp-route-id="@Model.Parcel?.Id" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> ویرایش
+                    </a>
+                    <a asp-page="./Delete" asp-route-id="@Model.Parcel?.Id" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> حذف
+                    </a>
+                    <a asp-page="./Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-right"></i> بازگشت
+                    </a>
+                </div>
+            </div>
+
+            @if (Model.Parcel == null)
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> قطعه مورد نظر یافت نشد.
+                </div>
+            }
+            else
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-3">شناسه</dt>
+                            <dd class="col-sm-9">@Model.Parcel.Id</dd>
+
+                            <dt class="col-sm-3">کد قطعه</dt>
+                            <dd class="col-sm-9">@Model.Parcel.ParcelCode</dd>
+
+                            <dt class="col-sm-3">نام فارسی</dt>
+                            <dd class="col-sm-9">@Model.Parcel.PersianName</dd>
+
+                            <dt class="col-sm-3">نام انگلیسی</dt>
+                            <dd class="col-sm-9">@Model.Parcel.EnglishName</dd>
+
+                            <dt class="col-sm-3">تعریف</dt>
+                            <dd class="col-sm-9">@Model.Parcel.Definition</dd>
+
+                            <dt class="col-sm-3">نوع عارضه</dt>
+                            <dd class="col-sm-9">@Model.Parcel.FeatureType</dd>
+
+                            <dt class="col-sm-3">بعد</dt>
+                            <dd class="col-sm-9">@Model.Parcel.Dimension</dd>
+
+                            <dt class="col-sm-3">مساحت</dt>
+                            <dd class="col-sm-9">@Model.Parcel.Area?.ToString("N2")</dd>
+
+                            <dt class="col-sm-3">استان</dt>
+                            <dd class="col-sm-9">@Model.Parcel.ProvinceName</dd>
+
+                            <dt class="col-sm-3">شهرستان</dt>
+                            <dd class="col-sm-9">@Model.Parcel.CountyName</dd>
+
+                            <dt class="col-sm-3">توضیحات</dt>
+                            <dd class="col-sm-9">@Model.Parcel.Description</dd>
+
+                            <dt class="col-sm-3">تاریخ ایجاد</dt>
+                            <dd class="col-sm-9">@Model.Parcel.CreatedAt.ToPersianDateString()</dd>
+
+                            <dt class="col-sm-3">تاریخ ویرایش</dt>
+                            <dd class="col-sm-9">@Model.Parcel.UpdatedAt?.ToPersianDateString()</dd>
+                        </dl>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

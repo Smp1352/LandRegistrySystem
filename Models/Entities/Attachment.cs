@@ -4,9 +4,9 @@ namespace LandRegistrySystem.Models.Entities;
 
 public class Attachment : BaseEntity
 {
-    public int ParcelId { get; set; }
+    public int? ParcelId { get; set; }
 
-    public Parcel Parcel { get; set; } = null!;
+    public Parcel? Parcel { get; set; } = null!;
 
     public string FileName { get; set; } = "";
 

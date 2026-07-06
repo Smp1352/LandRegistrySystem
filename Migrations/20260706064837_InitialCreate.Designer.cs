@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LandRegistrySystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260705225242_InitialCreate")]
+    [Migration("20260706064837_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -56,7 +56,7 @@ namespace LandRegistrySystem.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ParcelId")
+                    b.Property<int?>("ParcelId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
@@ -530,10 +530,10 @@ namespace LandRegistrySystem.Migrations
                     b.Property<string>("OwnershipConfirm")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParcelId")
+                    b.Property<int?>("ParcelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PersonId")
+                    b.Property<int?>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<string>("RelationWithOwner")
@@ -583,10 +583,10 @@ namespace LandRegistrySystem.Migrations
                     b.Property<string>("OwnershipUnit")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParcelId")
+                    b.Property<int?>("ParcelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PersonId")
+                    b.Property<int?>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
@@ -798,9 +798,7 @@ namespace LandRegistrySystem.Migrations
                 {
                     b.HasOne("LandRegistrySystem.Models.Entities.Parcel", "Parcel")
                         .WithMany()
-                        .HasForeignKey("ParcelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParcelId");
 
                     b.Navigation("Parcel");
                 });
@@ -846,15 +844,11 @@ namespace LandRegistrySystem.Migrations
                 {
                     b.HasOne("LandRegistrySystem.Models.Entities.Parcel", "Parcel")
                         .WithMany("ParcelOperators")
-                        .HasForeignKey("ParcelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParcelId");
 
                     b.HasOne("LandRegistrySystem.Models.Entities.Person", "Person")
                         .WithMany("OperatedParcels")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PersonId");
 
                     b.Navigation("Parcel");
 
@@ -865,15 +859,11 @@ namespace LandRegistrySystem.Migrations
                 {
                     b.HasOne("LandRegistrySystem.Models.Entities.Parcel", "Parcel")
                         .WithMany("ParcelOwners")
-                        .HasForeignKey("ParcelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParcelId");
 
                     b.HasOne("LandRegistrySystem.Models.Entities.Person", "Person")
                         .WithMany("OwnedParcels")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PersonId");
 
                     b.Navigation("Parcel");
 

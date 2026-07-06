@@ -8,11 +8,12 @@ public class ParcelOperator : BaseEntity
 
     public Parcel? Parcel { get; set; } = null!;
 
-    public int PersonId { get; set; }
+    public int? PersonId { get; set; }
 
-    public Person Person { get; set; } = null!;
+    public virtual Person? Person { get; set; }  // ✅ Person? به جای Person
 
     public string? RelationWithOwner { get; set; }
 
     public string? OwnershipConfirm { get; set; }
 }
+ 
