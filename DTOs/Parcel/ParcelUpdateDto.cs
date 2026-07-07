@@ -10,6 +10,10 @@ namespace LandRegistrySystem.DTOs.Parcel
     {
         [Required]
         public int Id { get; set; }
+        [Display(Name = "نوع محصول")]
+        [MaxLength(50)]
+        public string? CropsType { get; set; }
+
 
         [Required(ErrorMessage = "نام فارسی الزامی است")]
         [MaxLength(100)]

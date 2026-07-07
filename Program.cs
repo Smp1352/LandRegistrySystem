@@ -1,8 +1,11 @@
-﻿using LandRegistrySystem.Data;
+﻿
+using LandRegistrySystem.Data;
 using LandRegistrySystem.Data.Repositories;
 using LandRegistrySystem.Services;
-using LandRegistrySystem.Mappings;
+using LandRegistrySystem.Validators;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +41,21 @@ builder.Services.AddScoped<IParcelService, ParcelService>();
 // برای سرویس‌های دیگر در آینده:
 // builder.Services.AddScoped<IProvinceService, ProvinceService>();
 // builder.Services.AddScoped<IPersonService, PersonService>();
+// ==========================================
+// ثبت FluentValidation
+// ==========================================
+builder.Services.AddFluentValidationAutoValidation();  // اعتبارسنجی خودکار
+builder.Services.AddFluentValidationClientsideAdapters();  // اعتبارسنجی سمت کلاینت
+
+// ثبت تمام Validators
+builder.Services.AddValidatorsFromAssemblyContaining<ParcelCreateValidator>();
+
+// ==========================================
+// ثبت Repository و Service
+// ==========================================
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IParcelRepository, ParcelRepository>();
+builder.Services.AddScoped<IParcelService, ParcelService>();
 
 // ==========================================
 // 4. ثبت سایر سرویس‌های ASP.NET Core
@@ -68,10 +86,12 @@ using (var scope = app.Services.CreateScope())
 // ==========================================
 app.MapRazorPages();
 
-// ✅ تنظیم مسیر پیش‌فرض به Parcels/Index
 app.MapGet("/", async context =>
 {
-    context.Response.Redirect("/Parcels");
+    await Task.Run(() =>
+    {
+        context.Response.Redirect("/Parcels");
+    });
 });
 
 // ==========================================

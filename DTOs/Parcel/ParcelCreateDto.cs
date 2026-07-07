@@ -1,5 +1,7 @@
 ﻿// DTOs/Parcel/ParcelCreateDto.cs
+using LandRegistrySystem.Models.Enums;
 using System.ComponentModel.DataAnnotations;
+using LandRegistrySystem.Validators;
 
 namespace LandRegistrySystem.DTOs.Parcel
 {
@@ -110,15 +112,29 @@ namespace LandRegistrySystem.DTOs.Parcel
 
         [Display(Name = "نوع محصول")]
         [MaxLength(50)]
-        public string? CropsType { get; set; }
+        public string? CropsType { get; set; }  // ✅ این خاصیت را اضافه کنید
 
+   
         // ==========================================
         // اطلاعات مالک (متصرف)
         // ==========================================
 
+        
+      
+
+        [Display(Name = "ادله و امارات مالکیت متصرف")]
+        [MaxLength(500)]
+        public string? OwnershipProof { get; set; }
+
+        [Display(Name = "سایر ادله و امارات")]
+        [MaxLength(200)]
+        public string? OwnershipProofOther { get; set; }
+
         [Display(Name = "نوع متصرف")]
         [MaxLength(5)]
-        public string? OwnerType { get; set; }
+        public OwnerType? OwnerType { get; set; }
+        public OwnershipUnit? OwnershipUnit { get; set; }
+
 
         [Display(Name = "تعداد شرکا")]
         [MaxLength(10)]
@@ -147,19 +163,16 @@ namespace LandRegistrySystem.DTOs.Parcel
         public string? OwnerFatherName { get; set; }
 
         [Display(Name = "تاریخ تولد متصرف")]
-        public DateTime? OwnerBirthday { get; set; }
+        [RegularExpression(@"^\d{4}/\d{2}/\d{2}$",
+          ErrorMessage = "فرمت تاریخ باید yyyy/MM/dd باشد")]
+        [PersianDateValidation(ErrorMessage = "تاریخ تولد متصرف معتبر نیست")]
+        public string? OwnerBirthdayPersian { get; set; }
 
-        [Display(Name = "واحد سهم مالکیت")]
-        [MaxLength(50)]
-        public string? OwnershipUnit { get; set; }
 
         [Display(Name = "تعداد سهم مالکیت")]
         [Range(0, double.MaxValue, ErrorMessage = "تعداد سهم باید عدد مثبت باشد")]
         public double? OwnershipQuantity { get; set; }
-
-        [Display(Name = "ادله و امارات مالکیت متصرف")]
-        [MaxLength(50)]
-        public string? OwnershipProof { get; set; }
+ 
 
         // ==========================================
         // اطلاعات بهره‌بردار
@@ -188,7 +201,11 @@ namespace LandRegistrySystem.DTOs.Parcel
         public string? OperatorFatherName { get; set; }
 
         [Display(Name = "تاریخ تولد بهره بردار")]
-        public DateTime? OperatorBirthday { get; set; }
+        [RegularExpression(@"^\d{4}/\d{2}/\d{2}$",
+           ErrorMessage = "فرمت تاریخ باید yyyy/MM/dd باشد")]
+        [PersianDateValidation(ErrorMessage = "تاریخ تولد بهره بردار معتبر نیست")]
+        public string? OperatorBirthdayPersian { get; set; }
+
 
         [Display(Name = "رابطه حقوقی بهره بردار با مالک")]
         [MaxLength(50)]

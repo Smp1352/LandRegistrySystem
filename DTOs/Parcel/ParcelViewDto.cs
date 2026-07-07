@@ -1,5 +1,7 @@
 ﻿// DTOs/Parcel/ParcelViewDto.cs
 
+using System.ComponentModel.DataAnnotations;
+
 namespace LandRegistrySystem.DTOs.Parcel
 {
     /// <summary>
@@ -45,6 +47,8 @@ namespace LandRegistrySystem.DTOs.Parcel
         public string? OwnerMobile { get; set; }
 
         // ===== اطلاعات بهره‌بردار =====
+        [Display(Name = "نوع محصول")]
+        public string? CropsType { get; set; }
         public string? OperatorName { get; set; }
         public string? OperatorLastName { get; set; }
         public string? OperatorNationalCode { get; set; }

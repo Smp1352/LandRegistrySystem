@@ -24,7 +24,7 @@ namespace LandRegistrySystem.Services
             var parcel = await _parcelRepository.GetParcelWithDetailsAsync(id);
             return parcel == null ? null : _mapper.Map<ParcelViewDto>(parcel);
         }
-
+        
         public async Task<IEnumerable<ParcelViewDto>> GetAllParcelViewDtosAsync()
         {
             var parcels = await _parcelRepository.GetAllAsync(
@@ -58,8 +58,15 @@ namespace LandRegistrySystem.Services
         }
 
         // ===== عملیات CRUD با DTO =====
+
         public async Task<int> CreateParcelAsync(ParcelCreateDto createDto)
         {
+            // اگر OwnershipProof خالی است، از Checkboxها مقدار بگیرید
+            if (string.IsNullOrEmpty(createDto.OwnershipProof))
+            {
+                // در صورت نیاز، مقدار پیش‌فرض یا خطا
+            }
+
             var parcel = _mapper.Map<Parcel>(createDto);
             parcel.CreatedAt = DateTime.UtcNow;
 
@@ -68,7 +75,6 @@ namespace LandRegistrySystem.Services
 
             return parcel.Id;
         }
-
         public async Task<bool> UpdateParcelAsync(ParcelUpdateDto updateDto)
         {
             var existingParcel = await _parcelRepository.GetByIdAsync(updateDto.Id);
