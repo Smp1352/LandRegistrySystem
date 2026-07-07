@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Person\" />
     <Folder Include="Helper\NewFolder\" />
     <Folder Include="Migrations\" />
   </ItemGroup>

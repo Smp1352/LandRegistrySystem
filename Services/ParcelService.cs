@@ -35,11 +35,13 @@ namespace LandRegistrySystem.Services
         }
 
         public async Task<PagedResultDto<ParcelViewDto>> GetPagedParcelDtosAsync(
+            
             int pageNumber,
             int pageSize,
             string? searchTerm = null)
         {
             var (items, totalCount) = await _parcelRepository.GetPagedAsync(
+               
                 pageNumber,
                 pageSize,
                 orderBy: q => q.OrderByDescending(p => p.CreatedAt),

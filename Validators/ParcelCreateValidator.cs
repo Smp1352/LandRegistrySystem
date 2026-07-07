@@ -10,30 +10,7 @@ namespace LandRegistrySystem.Validators
     {
         public ParcelCreateValidator()
         {
-            // ==========================================
-            // مشخصات عمومی
-            // ==========================================
-
-            RuleFor(x => x.PersianName)
-                .NotEmpty().WithMessage("نام فارسی عارضه الزامی است")
-                .MaximumLength(100).WithMessage("نام فارسی حداکثر 100 کاراکتر است");
-
-            RuleFor(x => x.EnglishName)
-                .MaximumLength(100).WithMessage("نام انگلیسی حداکثر 100 کاراکتر است");
-
-            RuleFor(x => x.Definition)
-                .MaximumLength(500).WithMessage("تعریف عارضه حداکثر 500 کاراکتر است");
-
-            RuleFor(x => x.FeatureClass)
-                .MaximumLength(100).WithMessage("کلاس عارضه حداکثر 100 کاراکتر است");
-
-            RuleFor(x => x.FeatureType)
-                .Must(x => string.IsNullOrEmpty(x) || new[] { "نقطه‌ای", "خطی", "سطحی" }.Contains(x))
-                .WithMessage("نوع عارضه باید یکی از موارد نقطه‌ای، خطی یا سطحی باشد");
-
-            RuleFor(x => x.Dimension)
-                .Must(x => string.IsNullOrEmpty(x) || new[] { "2D", "3D" }.Contains(x))
-                .WithMessage("بعد باید 2D یا 3D باشد");
+            
 
             // ==========================================
             // اطلاعات توصیفی

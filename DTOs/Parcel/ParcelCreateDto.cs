@@ -7,33 +7,7 @@ namespace LandRegistrySystem.DTOs.Parcel
 {
     public class ParcelCreateDto
     {
-        // ==========================================
-        // مشخصات عمومی
-        // ==========================================
-
-        [Display(Name = "نام عارضه (فارسی)")]
-        [Required(ErrorMessage = "نام فارسی عارضه الزامی است")]
-        [MaxLength(100, ErrorMessage = "حداکثر 100 کاراکتر")]
-        public string PersianName { get; set; } = "حد مالکیت";
-
-        [Display(Name = "نام عارضه (انگلیسی)")]
-        [MaxLength(100)]
-        public string? EnglishName { get; set; } = "Ownership_Boundary_A";
-
-        [Display(Name = "تعریف عارضه")]
-        [MaxLength(500)]
-        public string? Definition { get; set; } = "محدوده قطعه دارای نقشه حدنگار اراضی کشاورزی توسط امور اراضی برای استفاده در اجرای تبصره 3 ماده 10 قانون الزام به ثبت رسمی معاملات اموال غیر منقول";
-
-        [Display(Name = "کلاس عارضه")]
-        [MaxLength(100)]
-        public string? FeatureClass { get; set; } = "محدوده قطعه کشاورزی";
-
-        [Display(Name = "نوع عارضه")]
-        public string? FeatureType { get; set; } = "سطحی";
-
-        [Display(Name = "بعد")]
-        public string? Dimension { get; set; } = "2D";
-
+        
         // ==========================================
         // اطلاعات توصیفی - TDB (فایل Shape)
         // ==========================================

@@ -1,6 +1,7 @@
 ﻿// Pages/Parcels/Edit.cshtml.cs
 using LandRegistrySystem.DTOs.Parcel;
 using LandRegistrySystem.Services;
+using LandRegistrySystem.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -24,15 +25,49 @@ namespace LandRegistrySystem.Pages.Parcels
             if (parcel == null)
                 return NotFound();
 
-            // Map ViewDto به UpdateDto
+            // Map ViewDto به UpdateDto با تمام فیلدها
             Parcel = new ParcelUpdateDto
             {
                 Id = parcel.Id,
-                PersianName = parcel.PersianName,
-                EnglishName = parcel.EnglishName,
-                Definition = parcel.Definition,
+                X = parcel.X,
+                Y = parcel.Y,
+                Zone = parcel.Zone,
                 ParcelCode = parcel.ParcelCode,
+                PostalCode = parcel.PostalCode,
                 Area = parcel.Area,
+                UniqueParcelCode = parcel.UniqueParcelCode,
+                Province = parcel.Province,
+                Shahrestan = parcel.Shahrestan,
+                AbadiName = parcel.AbadiName,
+                AbadiCode = parcel.AbadiCode,
+                NahiyeSabti = parcel.NahiyeSabti,
+                PlakName = parcel.PlakName,
+                PlakAsli = parcel.PlakAsli,
+                PlakFarei = parcel.PlakFarei,
+                BakhshSabti = parcel.BakhshSabti,
+                CurrentOperationLandUse = parcel.CurrentOperationLandUse,
+                CropsType = parcel.CropsType,
+                OwnerType = parcel.OwnerType,
+                ShorakaTedad = parcel.ShorakaTedad,
+                OwnerName = parcel.OwnerName,
+                OwnerLastName = parcel.OwnerLastName,
+                OwnerNationalCode = parcel.OwnerNationalCode,
+                OwnerMobile = parcel.OwnerMobile,
+                OwnerFatherName = parcel.OwnerFatherName,
+                OwnerBirthdayPersian = parcel.OwnerBirthdayPersian,
+                OwnershipUnit = parcel.OwnershipUnit,
+                OwnershipQuantity = parcel.OwnershipQuantity,
+                OwnershipProof = parcel.OwnershipProof,
+                OperatorName = parcel.OperatorName,
+                OperatorLastName = parcel.OperatorLastName,
+                OperatorNationalCode = parcel.OperatorNationalCode,
+                OperatorMobile = parcel.OperatorMobile,
+                OperatorFatherName = parcel.OperatorFatherName,
+                OperatorBirthdayPersian = parcel.OperatorBirthdayPersian,
+                RelationOwnerOperator = parcel.RelationOwnerOperator,
+                OwnershipConfirm = parcel.OwnershipConfirm,
+                ChangeLandUse = parcel.ChangeLandUse,
+                SanadMafroozi = parcel.SanadMafroozi,
                 Description = parcel.Description
             };
 

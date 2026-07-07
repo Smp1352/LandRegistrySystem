@@ -17,68 +17,169 @@
             @if (TempData["Success"] != null)
             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @TempData["Success"]
+                    <i class="fas fa-check-circle"></i> @TempData["Success"]
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             }
 
             <div class="card">
                 <div class="card-body">
-                    <form method="post">
+                    <form method="post" id="editForm">
                         <input type="hidden" asp-for="Parcel.Id" />
-                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div asp-validation-summary="All" class="alert alert-danger"></div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label asp-for="Parcel.PersianName" class="form-label"></label>
-                                    <input asp-for="Parcel.PersianName" class="form-control" />
-                                    <span asp-validation-for="Parcel.PersianName" class="text-danger"></span>
-                                </div>
+                        <!-- ========================================== -->
+                        <!-- بخش 1: اطلاعات توصیفی TDB -->
+                        <!-- ========================================== -->
+                        <div class="card mb-4 border-success">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-database"></i> مشخصات TDB - اطلاعات توصیفی</h5>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label asp-for="Parcel.EnglishName" class="form-label"></label>
-                                    <input asp-for="Parcel.EnglishName" class="form-control" />
-                                    <span asp-validation-for="Parcel.EnglishName" class="text-danger"></span>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.X" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.X" class="form-control" />
+                                            <span asp-validation-for="Parcel.X" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.Y" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.Y" class="form-control" />
+                                            <span asp-validation-for="Parcel.Y" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.Zone" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.Zone" class="form-control" />
+                                            <span asp-validation-for="Parcel.Zone" class="text-danger"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label asp-for="Parcel.Definition" class="form-label"></label>
-                                    <textarea asp-for="Parcel.Definition" class="form-control" rows="2"></textarea>
-                                    <span asp-validation-for="Parcel.Definition" class="text-danger"></span>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.ParcelCode" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.ParcelCode" class="form-control" />
+                                            <span asp-validation-for="Parcel.ParcelCode" class="text-danger"></span>
+                                            <small class="form-text text-muted">حداکثر 20 کاراکتر</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.PostalCode" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.PostalCode" class="form-control" />
+                                            <span asp-validation-for="Parcel.PostalCode" class="text-danger"></span>
+                                            <small class="form-text text-muted">10 رقم</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.Area" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.Area" class="form-control" step="0.01" />
+                                            <span asp-validation-for="Parcel.Area" class="text-danger"></span>
+                                            <small class="form-text text-muted">عدد مثبت</small>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="Parcel.ParcelCode" class="form-label"></label>
-                                    <input asp-for="Parcel.ParcelCode" class="form-control" />
-                                    <span asp-validation-for="Parcel.ParcelCode" class="text-danger"></span>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.UniqueParcelCode" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.UniqueParcelCode" class="form-control" />
+                                            <span asp-validation-for="Parcel.UniqueParcelCode" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.Province" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.Province" class="form-control" />
+                                            <span asp-validation-for="Parcel.Province" class="text-danger"></span>
+                                            <small class="form-text text-muted">حداکثر 50 کاراکتر</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.Shahrestan" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.Shahrestan" class="form-control" />
+                                            <span asp-validation-for="Parcel.Shahrestan" class="text-danger"></span>
+                                            <small class="form-text text-muted">حداکثر 50 کاراکتر</small>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label asp-for="Parcel.Area" class="form-label"></label>
-                                    <input asp-for="Parcel.Area" class="form-control" step="0.01" />
-                                    <span asp-validation-for="Parcel.Area" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label asp-for="Parcel.Description" class="form-label"></label>
-                                    <textarea asp-for="Parcel.Description" class="form-control" rows="2"></textarea>
-                                    <span asp-validation-for="Parcel.Description" class="text-danger"></span>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.AbadiName" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.AbadiName" class="form-control" />
+                                            <span asp-validation-for="Parcel.AbadiName" class="text-danger"></span>
+                                            <small class="form-text text-muted">حداکثر 50 کاراکتر</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Parcel.AbadiCode" class="form-label fw-bold"></label>
+                                            <input asp-for="Parcel.AbadiCode" class="form-control" />
+                                            <span asp-validation-for="Parcel.AbadiCode" class="text-danger"></span>
+                                            <small class="form-text text-muted">عدد معتبر</small>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- ========================================== -->
+                        <!-- بخش 2: اطلاعات ثبتی -->
+                        <!-- ========================================== -->
+                        <div class="card mb-4 border-info">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-gavel"></i> اطلاعات ثبتی</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- همانند Create.cshtml -->
+                            </div>
+                        </div>
+
+                        <!-- ========================================== -->
+                        <!-- بخش 3: اطلاعات مالک -->
+                        <!-- ========================================== -->
+                        <div class="card mb-4 border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0"><i class="fas fa-user"></i> اطلاعات مالک</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- همانند Create.cshtml -->
+                            </div>
+                        </div>
+
+                        <!-- ========================================== -->
+                        <!-- بخش 4: اطلاعات بهره‌بردار -->
+                        <!-- ========================================== -->
+                        <div class="card mb-4 border-secondary">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0"><i class="fas fa-user-tie"></i> اطلاعات بهره‌بردار</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- همانند Create.cshtml -->
+                            </div>
+                        </div>
+
+                        <!-- ========================================== -->
+                        <!-- بخش 5: سایر اطلاعات -->
+                        <!-- ========================================== -->
+                        <div class="card mb-4 border-dark">
+                            <div class="card-header bg-dark text-white">
+                                <h5 class="mb-0"><i class="fas fa-cogs"></i> سایر اطلاعات</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- همانند Create.cshtml -->
+                            </div>
+                        </div>
+
+                        <!-- دکمه‌ها -->
                         <div class="d-flex justify-content-end gap-2">
                             <a asp-page="./Index" class="btn btn-secondary">
                                 <i class="fas fa-arrow-right"></i> بازگشت
@@ -96,4 +197,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/persian-date.js"></script>
 }

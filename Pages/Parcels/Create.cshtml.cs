@@ -1,6 +1,6 @@
 ﻿// Pages/Parcels/Create.cshtml.cs
-using FluentValidation;
 using LandRegistrySystem.DTOs.Parcel;
+using LandRegistrySystem.DTOs.Person;
 using LandRegistrySystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,36 +10,52 @@ namespace LandRegistrySystem.Pages.Parcels
     public class CreateModel : PageModel
     {
         private readonly IParcelService _parcelService;
-        private readonly IValidator<ParcelCreateDto> _validator;
+        private readonly IPersonService _personService;
 
-        public CreateModel(IParcelService parcelService, IValidator<ParcelCreateDto> validator)
+        public CreateModel(IParcelService parcelService, IPersonService personService)
         {
             _parcelService = parcelService;
-            _validator = validator;
+            _personService = personService;
         }
 
         [BindProperty]
         public ParcelCreateDto Parcel { get; set; } = new();
 
-        public IActionResult OnGet()
+        // اطلاعات شخصی که با کدملی جستجو می‌شود
+        public PersonViewDto? SelectedPerson { get; set; }
+
+        // کدملی جستجو شده
+        [BindProperty(SupportsGet = true)]
+        public string? SearchNationalCode { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(string? nationalCode)
         {
+            if (!string.IsNullOrEmpty(nationalCode))
+            {
+                SearchNationalCode = nationalCode;
+                SelectedPerson = await _personService.GetPersonByNationalCodeAsync(nationalCode);
+
+                if (SelectedPerson == null)
+                {
+                    TempData["Error"] = "شخصی با این کدملی یافت نشد. لطفاً ابتدا شخص را ثبت کنید.";
+                }
+                else
+                {
+                    // پر کردن اطلاعات شخص در فرم
+                    Parcel.OwnerName = SelectedPerson.FirstName;
+                    Parcel.OwnerLastName = SelectedPerson.LastName;
+                    Parcel.OwnerNationalCode = SelectedPerson.NationalCode;
+                    Parcel.OwnerMobile = SelectedPerson.Mobile;
+                }
+            }
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // ==========================================
-            // اعتبارسنجی با FluentValidation
-            // ==========================================
-            var validationResult = await _validator.ValidateAsync(Parcel);
-            if (!validationResult.IsValid)
-            {
-                foreach (var error in validationResult.Errors)
-                {
-                    ModelState.AddModelError($"Parcel.{error.PropertyName}", error.ErrorMessage);
-                }
+            if (!ModelState.IsValid)
                 return Page();
-            }
 
             try
             {

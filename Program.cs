@@ -6,6 +6,7 @@ using LandRegistrySystem.Validators;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using LandRegistrySystem.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,9 @@ builder.Services.AddScoped<IParcelService, ParcelService>();
 // ==========================================
 // 4. ثبت سایر سرویس‌های ASP.NET Core
 // ==========================================
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IPersonService, PersonService>();
+
 builder.Services.AddRazorPages();
 
 // اگر از AutoMapper استفاده می‌کنید:

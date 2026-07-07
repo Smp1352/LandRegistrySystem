@@ -1,0 +1,480 @@
+﻿@page
+@model LandRegistrySystem.Pages.Reports.OwnerParcelsReportModel
+@{
+    ViewData["Title"] = "گزارش قطعات متصرف";
+    Layout = null;  // برای چاپ بدون Layout
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>گزارش قطعات متصرف</title>
+
+    <!-- ========================================== -->
+    <!-- FontAwesome برای آیکون‌ها -->
+    <!-- ========================================== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        /* ========================================== */
+        /* تنظیمات عمومی و اندازه A5 */
+        /* ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IRANSans', 'Tahoma', 'Arial', sans-serif;
+            background: #fff;
+            color: #333;
+            padding: 10mm;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* اندازه برگه A5 (148mm x 210mm) */
+        .page {
+            width: 148mm;
+            min-height: 210mm;
+            margin: 0 auto;
+            padding: 8mm 10mm;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* ========================================== */
+        /* هدر گزارش */
+        /* ========================================== */
+        .report-header {
+            border-bottom: 3px double #2c3e50;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .report-header h2 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+
+        .report-header .sub-title {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        /* ========================================== */
+        /* اطلاعات متصرف (هدر دیتیل) */
+        /* ========================================== */
+        .owner-info {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px 12px;
+            font-size: 11px;
+        }
+
+        .owner-info .label {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .owner-info .value {
+            color: #212529;
+        }
+
+        /* ========================================== */
+        /* جدول قطعات */
+        /* ========================================== */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+
+        table thead {
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        table th {
+            padding: 4px 4px;
+            text-align: center;
+            border: 1px solid #34495e;
+            font-weight: bold;
+        }
+
+        table td {
+            padding: 3px 4px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        table tbody tr:hover {
+            background: #e9ecef;
+        }
+
+        /* ========================================== */
+        /* خلاصه آماری */
+        /* ========================================== */
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            background: #e9ecef;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* ========================================== */
+        /* پاورقی (فوتر) */
+        /* ========================================== */
+        .report-footer {
+            border-top: 2px solid #2c3e50;
+            padding-top: 8px;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #7f8c8d;
+            position: absolute;
+            bottom: 8mm;
+            left: 10mm;
+            right: 10mm;
+        }
+
+        /* ========================================== */
+        /* دکمه چاپ (فقط در صفحه نمایش) */
+        /* ========================================== */
+        .print-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #2c3e50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+
+        .print-btn:hover {
+            background: #1a252f;
+        }
+
+        .print-btn-secondary {
+            background: #6c757d;
+        }
+
+        .print-btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .no-print {
+            display: block;
+        }
+
+        /* ========================================== */
+        /* خطاها و پیام‌ها */
+        /* ========================================== */
+        .error-box {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 1px solid #f5c6cb;
+            margin-bottom: 12px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        /* ========================================== */
+        /* فرم جستجو */
+        /* ========================================== */
+        .search-box {
+            max-width: 400px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .search-box h3 {
+            margin-bottom: 16px;
+            color: #2c3e50;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .search-box button {
+            width: 100%;
+        }
+
+        /* ========================================== */
+        /* تنظیمات چاپ */
+        /* ========================================== */
+        @@media print {
+            body {
+                padding: 0;
+                background: #fff;
+            }
+
+            .page {
+                width: 100%;
+                min-height: 100vh;
+                border: none;
+                box-shadow: none;
+                padding: 8mm 10mm;
+                margin: 0;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            table thead {
+                background: #2c3e50 !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            table tbody tr:nth-child(even) {
+                background: #f8f9fa !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .owner-info {
+                background: #f8f9fa !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .summary {
+                background: #e9ecef !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .report-footer {
+                position: static;
+                margin-top: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page" id="reportPage">
+
+        <!-- ========================================== -->
+        <!-- دکمه چاپ و بازگشت (فقط در صفحه نمایش) -->
+        <!-- ========================================== -->
+        <div class="no-print" style="text-align:left; margin-bottom:10px;">
+            <button class="print-btn" onclick="window.print()">
+                <i class="fas fa-print"></i> چاپ گزارش
+            </button>
+            <a asp-page="/Parcels/Index" class="print-btn print-btn-secondary">
+                <i class="fas fa-arrow-right"></i> بازگشت
+            </a>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- نمایش خطاها -->
+        <!-- ========================================== -->
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="error-box">
+                <i class="fas fa-exclamation-triangle"></i> @Model.ErrorMessage
+            </div>
+        }
+
+        @if (Model.Report != null)
+        {
+            <!-- ========================================== -->
+            <!-- هدر گزارش -->
+            <!-- ========================================== -->
+            <div class="report-header">
+                <h2>گزارش قطعات متعلق به متصرف</h2>
+                <div class="sub-title">
+                    تاریخ تهیه گزارش: @Model.Report.ReportDate.ToString("yyyy/MM/dd")
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- اطلاعات متصرف -->
+            <!-- ========================================== -->
+            <div class="owner-info">
+                <div>
+                    <span class="label">کدملی:</span>
+                    <span class="value">@Model.Report.OwnerNationalCode</span>
+                </div>
+                <div>
+                    <span class="label">نام:</span>
+                    <span class="value">@Model.Report.OwnerName</span>
+                </div>
+                <div>
+                    <span class="label">نام خانوادگی:</span>
+                    <span class="value">@Model.Report.OwnerLastName</span>
+                </div>
+                <div>
+                    <span class="label">نام پدر:</span>
+                    <span class="value">@(Model.Report.OwnerFatherName ?? "—")</span>
+                </div>
+                <div>
+                    <span class="label">شماره همراه:</span>
+                    <span class="value">@(Model.Report.OwnerMobile ?? "—")</span>
+                </div>
+                <div>
+                    <span class="label">تاریخ تولد:</span>
+                    <span class="value">@(Model.Report.OwnerBirthday ?? "—")</span>
+                </div>
+                <div>
+                    <span class="label">تعداد قطعات:</span>
+                    <span class="value">@Model.Report.TotalParcels</span>
+                </div>
+                <div>
+                    <span class="label">مجموع مساحت:</span>
+                    <span class="value">@(Model.Report.TotalArea?.ToString("N2") ?? "0") مترمربع</span>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- جدول قطعات -->
+            <!-- ========================================== -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:5%;">ردیف</th>
+                            <th style="width:12%;">کد قطعه</th>
+                            <th style="width:15%;">نام عارضه</th>
+                            <th style="width:12%;">استان</th>
+                            <th style="width:12%;">شهرستان</th>
+                            <th style="width:12%;">آبادی</th>
+                            <th style="width:10%;">مساحت (م²)</th>
+                            <th style="width:12%;">نوع بهره‌برداری</th>
+                            <th style="width:10%;">نوع محصول</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Report.Parcels != null && Model.Report.Parcels.Any())
+                        {
+                            int row = 1;
+                            foreach (var item in Model.Report.Parcels)
+                            {
+                                <tr>
+                                    <td>@row</td>
+                                    <td>@item.ParcelCode</td>
+                                    <td>@item.PersianName</td>
+                                    <td>@item.Province</td>
+                                    <td>@item.Shahrestan</td>
+                                    <td>@item.AbadiName</td>
+                                    <td>@item.Area?.ToString("N2")</td>
+                                    <td>@item.CurrentOperationLandUse</td>
+                                    <td>@item.CropsType</td>
+                                </tr>
+                                row++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="9" class="no-data">
+                                    <i class="fas fa-info-circle"></i> هیچ قطعه‌ای برای این متصرف یافت نشد.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- خلاصه آماری -->
+            <!-- ========================================== -->
+            <div class="summary">
+                <span>تعداد کل قطعات: @Model.Report.TotalParcels</span>
+                <span>مجموع مساحت: @(Model.Report.TotalArea?.ToString("N2") ?? "0") مترمربع</span>
+                <span>تاریخ چاپ: @DateTime.Now.ToString("yyyy/MM/dd")</span>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- پاورقی -->
+            <!-- ========================================== -->
+            <div class="report-footer">
+                <span>سیستم ثبت اراضی کشاورزی</span>
+                <span>نسخه 1.0</span>
+            </div>
+        }
+        else
+        {
+            <!-- ========================================== -->
+            <!-- فرم جستجو (در صورت عدم وجود گزارش) -->
+            <!-- ========================================== -->
+            <div class="search-box no-print">
+                <h3>جستجوی گزارش قطعات متصرف</h3>
+                <form method="get">
+                    <input type="text" name="nationalCode"
+                           placeholder="کدملی متصرف را وارد کنید..."
+                           value="@Model.NationalCode" />
+                    <button type="submit" class="print-btn">
+                        <i class="fas fa-search"></i> نمایش گزارش
+                    </button>
+                </form>
+            </div>
+        }
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- اسکریپت برای چاپ -->
+    <!-- ========================================== -->
+    <script>
+        // در صورت وجود پارامتر print=1 در URL، به طور خودکار چاپ شود
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('print') === '1') {
+                window.onload = function() {
+                    window.print();
+                };
+            }
+        })();
+    </script>
+
+</body>
+</html>

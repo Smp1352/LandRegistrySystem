@@ -1,0 +1,167 @@
+﻿@page
+@model LandRegistrySystem.Pages.Persons.CreateModel
+@{
+    ViewData["Title"] = "ثبت شخص جدید";
+}
+
+<div class="container mt-4" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>ثبت شخص جدید</h1>
+                <a asp-page="./Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-right"></i> بازگشت به لیست
+                </a>
+            </div>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="All" class="alert alert-danger"></div>
+
+                        <!-- ========================================== -->
+                        <!-- اطلاعات هویتی -->
+                        <!-- ========================================== -->
+                        <div class="card mb-3 border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-id-card"></i> اطلاعات هویتی</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.FirstName" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.FirstName" class="form-control" />
+                                            <span asp-validation-for="Person.FirstName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.LastName" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.LastName" class="form-control" />
+                                            <span asp-validation-for="Person.LastName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.NationalCode" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.NationalCode" class="form-control" />
+                                            <span asp-validation-for="Person.NationalCode" class="text-danger"></span>
+                                            <small class="form-text text-muted">10 رقم</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.FatherName" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.FatherName" class="form-control" />
+                                            <span asp-validation-for="Person.FatherName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.BirthDate" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.BirthDate" class="form-control" type="date" />
+                                            <span asp-validation-for="Person.BirthDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ========================================== -->
+                        <!-- اطلاعات تماس -->
+                        <!-- ========================================== -->
+                        <div class="card mb-3 border-success">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-phone"></i> اطلاعات تماس</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.Mobile" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.Mobile" class="form-control" />
+                                            <span asp-validation-for="Person.Mobile" class="text-danger"></span>
+                                            <small class="form-text text-muted">مثال: 09123456789</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.Phone" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.Phone" class="form-control" />
+                                            <span asp-validation-for="Person.Phone" class="text-danger"></span>
+                                            <small class="form-text text-muted">تلفن ثابت</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.Email" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.Email" class="form-control" type="email" />
+                                            <span asp-validation-for="Person.Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ========================================== -->
+                        <!-- اطلاعات مکانی -->
+                        <!-- ========================================== -->
+                        <div class="card mb-3 border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> اطلاعات مکانی</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.Address" class="form-label fw-bold"></label>
+                                            <textarea asp-for="Person.Address" class="form-control" rows="3"></textarea>
+                                            <span asp-validation-for="Person.Address" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label asp-for="Person.PostalCode" class="form-label fw-bold"></label>
+                                            <input asp-for="Person.PostalCode" class="form-control" />
+                                            <span asp-validation-for="Person.PostalCode" class="text-danger"></span>
+                                            <small class="form-text text-muted">کد پستی</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ========================================== -->
+                        <!-- دکمه‌ها -->
+                        <!-- ========================================== -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-page="./Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-right"></i> بازگشت
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> ثبت شخص
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
