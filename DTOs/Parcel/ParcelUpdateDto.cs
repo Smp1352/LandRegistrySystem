@@ -10,7 +10,36 @@ namespace LandRegistrySystem.DTOs.Parcel
         public int Id { get; set; }
 
         // ==========================================
-        // اطلاعات توصیفی TDB
+        // مشخصات عمومی
+        // ==========================================
+
+        [Display(Name = "نام عارضه (فارسی)")]
+        [MaxLength(100)]
+        public string? PersianName { get; set; }
+
+        [Display(Name = "نام عارضه (انگلیسی)")]
+        [MaxLength(100)]
+        public string? EnglishName { get; set; }
+
+        // ✅ اضافه کنید
+        [Display(Name = "تعریف عارضه")]
+        [MaxLength(500)]
+        public string? Definition { get; set; }
+
+        [Display(Name = "کلاس عارضه")]
+        [MaxLength(100)]
+        public string? FeatureClass { get; set; }
+
+        [Display(Name = "نوع عارضه")]
+        [MaxLength(20)]
+        public string? FeatureType { get; set; }
+
+        [Display(Name = "بعد")]
+        [MaxLength(10)]
+        public string? Dimension { get; set; }
+
+        // ==========================================
+        // اطلاعات توصیفی
         // ==========================================
 
         [Display(Name = "مختصات X مرکز قطعه")]
@@ -79,7 +108,7 @@ namespace LandRegistrySystem.DTOs.Parcel
         public int? BakhshSabti { get; set; }
 
         // ==========================================
-        // اطلاعات کاربری و بهره‌برداری
+        // اطلاعات کاربری
         // ==========================================
 
         [Display(Name = "بهره برداری فعلی قطعه")]
@@ -91,43 +120,43 @@ namespace LandRegistrySystem.DTOs.Parcel
         public string? CropsType { get; set; }
 
         // ==========================================
-        // اطلاعات مالک (متصرف)
+        // اطلاعات مالک
         // ==========================================
 
         [Display(Name = "نوع متصرف")]
         public OwnerType? OwnerType { get; set; }
 
-        [Display(Name = "تعداد شرکا")]
-        [MaxLength(10)]
-        [RegularExpression(@"^\d+$", ErrorMessage = "تعداد شرکا باید عدد باشد")]
-        public string? ShorakaTedad { get; set; }
-
-        [Display(Name = "نام متصرف")]
+        [Display(Name = "نام مالک")]
         [MaxLength(50)]
         public string? OwnerName { get; set; }
 
-        [Display(Name = "نام خانوادگی متصرف")]
+        [Display(Name = "نام خانوادگی مالک")]
         [MaxLength(50)]
         public string? OwnerLastName { get; set; }
 
-        [Display(Name = "کدملی متصرف")]
-        [MaxLength(50)]
+        [Display(Name = "کدملی مالک")]
+        [MaxLength(10)]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "کدملی باید 10 رقم باشد")]
         public string? OwnerNationalCode { get; set; }
 
-        [Display(Name = "شماره همراه متصرف")]
+        [Display(Name = "شماره همراه مالک")]
         [MaxLength(15)]
         [RegularExpression(@"^09\d{9}$", ErrorMessage = "شماره همراه باید با 09 شروع شود و 11 رقم باشد")]
         public string? OwnerMobile { get; set; }
 
-        [Display(Name = "نام پدر متصرف")]
+        [Display(Name = "نام پدر مالک")]
         [MaxLength(50)]
         public string? OwnerFatherName { get; set; }
 
-        [Display(Name = "تاریخ تولد متصرف")]
+        [Display(Name = "تاریخ تولد مالک")]
         [RegularExpression(@"^[1-4]\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])$",
             ErrorMessage = "فرمت تاریخ باید yyyy/MM/dd باشد")]
         public string? OwnerBirthdayPersian { get; set; }
+
+        [Display(Name = "تعداد شرکا")]
+        [MaxLength(10)]
+        [RegularExpression(@"^\d+$", ErrorMessage = "تعداد شرکا باید عدد باشد")]
+        public string? ShorakaTedad { get; set; }
 
         [Display(Name = "نوع مالکیت")]
         public OwnershipUnit? OwnershipUnit { get; set; }
@@ -136,7 +165,7 @@ namespace LandRegistrySystem.DTOs.Parcel
         [Range(0, double.MaxValue, ErrorMessage = "تعداد سهم باید عدد مثبت باشد")]
         public double? OwnershipQuantity { get; set; }
 
-        [Display(Name = "ادله و امارات مالکیت متصرف")]
+        [Display(Name = "ادله و امارات مالکیت")]
         [MaxLength(500)]
         public string? OwnershipProof { get; set; }
 

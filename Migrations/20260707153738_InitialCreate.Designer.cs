@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LandRegistrySystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260706064837_InitialCreate")]
+    [Migration("20260707153738_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -554,7 +554,7 @@ namespace LandRegistrySystem.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("ParcelOperator");
+                    b.ToTable("ParcelOperators");
                 });
 
             modelBuilder.Entity("LandRegistrySystem.Models.Entities.ParcelOwner", b =>
@@ -604,7 +604,7 @@ namespace LandRegistrySystem.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("ParcelOwner");
+                    b.ToTable("ParcelOwners");
                 });
 
             modelBuilder.Entity("LandRegistrySystem.Models.Entities.Person", b =>
@@ -615,8 +615,12 @@ namespace LandRegistrySystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -626,14 +630,17 @@ namespace LandRegistrySystem.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("FatherName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -641,9 +648,8 @@ namespace LandRegistrySystem.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Mobile")
                         .HasMaxLength(15)
@@ -651,6 +657,14 @@ namespace LandRegistrySystem.Migrations
 
                     b.Property<string>("NationalCode")
                         .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("PostalCode")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -669,7 +683,6 @@ namespace LandRegistrySystem.Migrations
                         .HasDatabaseName("IX_Person_IsDeleted");
 
                     b.HasIndex("NationalCode")
-                        .IsUnique()
                         .HasDatabaseName("IX_Person_NationalCode");
 
                     b.ToTable("Persons", (string)null);
@@ -847,7 +860,7 @@ namespace LandRegistrySystem.Migrations
                         .HasForeignKey("ParcelId");
 
                     b.HasOne("LandRegistrySystem.Models.Entities.Person", "Person")
-                        .WithMany("OperatedParcels")
+                        .WithMany("ParcelOperators")
                         .HasForeignKey("PersonId");
 
                     b.Navigation("Parcel");
@@ -862,7 +875,7 @@ namespace LandRegistrySystem.Migrations
                         .HasForeignKey("ParcelId");
 
                     b.HasOne("LandRegistrySystem.Models.Entities.Person", "Person")
-                        .WithMany("OwnedParcels")
+                        .WithMany("ParcelOwners")
                         .HasForeignKey("PersonId");
 
                     b.Navigation("Parcel");
@@ -897,9 +910,9 @@ namespace LandRegistrySystem.Migrations
 
             modelBuilder.Entity("LandRegistrySystem.Models.Entities.Person", b =>
                 {
-                    b.Navigation("OperatedParcels");
+                    b.Navigation("ParcelOperators");
 
-                    b.Navigation("OwnedParcels");
+                    b.Navigation("ParcelOwners");
                 });
 
             modelBuilder.Entity("LandRegistrySystem.Models.Entities.Province", b =>

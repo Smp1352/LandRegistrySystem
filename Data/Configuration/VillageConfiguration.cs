@@ -5,17 +5,27 @@ using LandRegistrySystem.Models.Entities;
 
 namespace LandRegistrySystem.Data.Configuration
 {
+    /// <summary>
+    /// پیکربندی جدول آبادی‌ها (روستاها)
+    /// </summary>
     public class VillageConfiguration : BaseConfiguration<Village>
     {
         public override void Configure(EntityTypeBuilder<Village> builder)
         {
-            // فراخوانی تنظیمات پایه
+            // ==========================================
+            // تنظیمات پایه از BaseConfiguration
+            // ==========================================
             base.Configure(builder);
 
-            // تنظیم نام جدول
+            // ==========================================
+            // نام جدول
+            // ==========================================
             builder.ToTable("Villages");
 
-            // تنظیم فیلدها
+            // ==========================================
+            // فیلدها
+            // ==========================================
+
             builder.Property(v => v.Name)
                    .HasMaxLength(50)
                    .IsRequired()
@@ -31,7 +41,10 @@ namespace LandRegistrySystem.Data.Configuration
                    .IsRequired(false)
                    .HasComment("شناسه شهرستان");
 
+            // ==========================================
             // ایندکس‌ها
+            // ==========================================
+
             builder.HasIndex(v => v.Code)
                    .IsUnique()
                    .HasDatabaseName("IX_Village_Code");
@@ -42,9 +55,13 @@ namespace LandRegistrySystem.Data.Configuration
             builder.HasIndex(v => v.CountyId)
                    .HasDatabaseName("IX_Village_CountyId");
 
-            // ترکیب ایندکس
+            // ایندکس ترکیبی
             builder.HasIndex(v => new { v.CountyId, v.Name })
                    .HasDatabaseName("IX_Village_CountyId_Name");
+
+            // ==========================================
+            // روابط
+            // ==========================================
 
             // رابطه با County
             builder.HasOne(v => v.County)

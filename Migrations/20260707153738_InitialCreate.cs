@@ -82,12 +82,16 @@ namespace LandRegistrySystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FatherName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     NationalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Mobile = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    FatherName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    BirthDate = table.Column<DateTime>(type: "date", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
@@ -288,7 +292,7 @@ namespace LandRegistrySystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ParcelOperator",
+                name: "ParcelOperators",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -306,21 +310,21 @@ namespace LandRegistrySystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ParcelOperator", x => x.Id);
+                    table.PrimaryKey("PK_ParcelOperators", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ParcelOperator_Parcels_ParcelId",
+                        name: "FK_ParcelOperators_Parcels_ParcelId",
                         column: x => x.ParcelId,
                         principalTable: "Parcels",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ParcelOperator_Persons_PersonId",
+                        name: "FK_ParcelOperators_Persons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Persons",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ParcelOwner",
+                name: "ParcelOwners",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -339,14 +343,14 @@ namespace LandRegistrySystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ParcelOwner", x => x.Id);
+                    table.PrimaryKey("PK_ParcelOwners", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ParcelOwner_Parcels_ParcelId",
+                        name: "FK_ParcelOwners_Parcels_ParcelId",
                         column: x => x.ParcelId,
                         principalTable: "Parcels",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ParcelOwner_Persons_PersonId",
+                        name: "FK_ParcelOwners_Persons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Persons",
                         principalColumn: "Id");
@@ -385,23 +389,23 @@ namespace LandRegistrySystem.Migrations
                 columns: new[] { "ProvinceId", "Name" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ParcelOperator_ParcelId",
-                table: "ParcelOperator",
+                name: "IX_ParcelOperators_ParcelId",
+                table: "ParcelOperators",
                 column: "ParcelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ParcelOperator_PersonId",
-                table: "ParcelOperator",
+                name: "IX_ParcelOperators_PersonId",
+                table: "ParcelOperators",
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ParcelOwner_ParcelId",
-                table: "ParcelOwner",
+                name: "IX_ParcelOwners_ParcelId",
+                table: "ParcelOwners",
                 column: "ParcelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ParcelOwner_PersonId",
-                table: "ParcelOwner",
+                name: "IX_ParcelOwners_PersonId",
+                table: "ParcelOwners",
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
@@ -452,8 +456,7 @@ namespace LandRegistrySystem.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Person_NationalCode",
                 table: "Persons",
-                column: "NationalCode",
-                unique: true);
+                column: "NationalCode");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Province_Code",
@@ -511,10 +514,10 @@ namespace LandRegistrySystem.Migrations
                 name: "LandUses");
 
             migrationBuilder.DropTable(
-                name: "ParcelOperator");
+                name: "ParcelOperators");
 
             migrationBuilder.DropTable(
-                name: "ParcelOwner");
+                name: "ParcelOwners");
 
             migrationBuilder.DropTable(
                 name: "Parcels");

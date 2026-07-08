@@ -2,27 +2,27 @@
 using LandRegistrySystem.DTOs.Common;
 using LandRegistrySystem.DTOs.Parcel;
 
-namespace LandRegistrySystem.Services
+public interface IParcelService
 {
-    public interface IParcelService
-    {
-        // ===== دریافت با DTO =====
-        Task<ParcelViewDto?> GetParcelViewDtoByIdAsync(int id);
-        Task<IEnumerable<ParcelViewDto>> GetAllParcelViewDtosAsync();  // ✅ نام صحیح
-        Task<PagedResultDto<ParcelViewDto>> GetPagedParcelDtosAsync(
-            int pageNumber,
-            int pageSize,
-            string? searchTerm = null);
+    // ===== دریافت =====
+    Task<ParcelViewDto?> GetParcelByIdAsync(int id);
+    Task<ParcelViewDto?> GetParcelViewDtoByIdAsync(int id); // ✅ اضافه کنید
+    Task<IEnumerable<ParcelViewDto>> GetAllParcelsAsync();
+    Task<PagedResultDto<ParcelViewDto>> GetPagedParcelsAsync(
+        int pageNumber,
+        int pageSize,
+        string? searchTerm = null);
 
-        // ===== عملیات CRUD با DTO =====
-        Task<int> CreateParcelAsync(ParcelCreateDto createDto);
-        Task<bool> UpdateParcelAsync(ParcelUpdateDto updateDto);
-        Task<bool> DeleteParcelAsync(int id);
+    // ===== عملیات CRUD =====
+    Task<int> CreateParcelAsync(ParcelCreateDto createDto);
+    Task<bool> UpdateParcelAsync(ParcelUpdateDto updateDto);
+    Task<bool> DeleteParcelAsync(int id);
+    Task<bool> HardDeleteParcelAsync(int id);
 
-        // ===== جستجو =====
-        Task<IEnumerable<ParcelViewDto>> SearchParcelDtosAsync(ParcelSearchDto searchDto);
+    // ===== بررسی وجود =====
+    Task<bool> ParcelExistsAsync(int id);
+    Task<bool> ParcelExistsByCodeAsync(string parcelCode);
 
-        // ===== متدهای کمکی =====
-        Task<int> GetParcelsCountAsync();  // ✅ متد جدید برای شمارش
-    }
+    // ===== آمار =====
+    Task<int> GetParcelsCountAsync();
 }

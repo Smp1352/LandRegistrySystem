@@ -1,105 +1,69 @@
-﻿
-using LandRegistrySystem.Data;
+﻿using LandRegistrySystem.Data;
 using LandRegistrySystem.Data.Repositories;
 using LandRegistrySystem.Services;
 using LandRegistrySystem.Validators;
+using LandRegistrySystem.Mappings;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using LandRegistrySystem.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 // ==========================================
 // 1. ثبت DbContext
 // ==========================================
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+          .LogTo(Console.WriteLine, LogLevel.Information)
+          .EnableSensitiveDataLogging());
+
 // ==========================================
-// ثبت AutoMapper
+// 2. ثبت AutoMapper
 // ==========================================
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // ==========================================
-// ثبت Repository‌ها
+// 3. ثبت FluentValidation (قبل از Build)
 // ==========================================
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IParcelRepository, ParcelRepository>();
-
-
-
-// ثبت Generic Repository
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
-// ثبت Repositoryهای اختصاصی
-builder.Services.AddScoped<IParcelRepository, ParcelRepository>();
-
-// ==========================================
-// 3. ثبت Service‌ها
-// ==========================================
-builder.Services.AddScoped<IParcelService, ParcelService>();
-// برای سرویس‌های دیگر در آینده:
-// builder.Services.AddScoped<IProvinceService, ProvinceService>();
-// builder.Services.AddScoped<IPersonService, PersonService>();
-// ==========================================
-// ثبت FluentValidation
-// ==========================================
-builder.Services.AddFluentValidationAutoValidation();  // اعتبارسنجی خودکار
-builder.Services.AddFluentValidationClientsideAdapters();  // اعتبارسنجی سمت کلاینت
-
-// ثبت تمام Validators
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<ParcelCreateValidator>();
 
 // ==========================================
-// ثبت Repository و Service
+// 4. ثبت Repository‌ها
 // ==========================================
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IParcelRepository, ParcelRepository>();
-builder.Services.AddScoped<IParcelService, ParcelService>();
 
 // ==========================================
-// 4. ثبت سایر سرویس‌های ASP.NET Core
+// 5. ثبت Service‌ها
 // ==========================================
+builder.Services.AddScoped<IParcelService, ParcelService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IPersonService, PersonService>();
 
+
+// ==========================================
+// 6. ثبت Razor Pages
+// ==========================================
 builder.Services.AddRazorPages();
 
-// اگر از AutoMapper استفاده می‌کنید:
-// builder.Services.AddAutoMapper(typeof(Program));
-
-// اگر از FluentValidation استفاده می‌کنید:
-// builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
+// ==========================================
+// 7. Build برنامه
+// ==========================================
 var app = builder.Build();
 
 // ==========================================
-// 5. اعمال Migration به‌صورت خودکار (اختیاری)
+// 8. اعمال Migration به‌صورت خودکار
 // ==========================================
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    // اگر دیتابیس وجود ندارد، ایجاد کن
-    dbContext.Database.EnsureCreated();
-    // یا اگر می‌خواهید Migration‌ها اعمال شوند:
-    // dbContext.Database.Migrate();
+    dbContext.Database.Migrate();  // یا EnsureCreated()
 }
-// ==========================================
-// تنظیمات Routing برای صفحه پیش‌فرض
-// ==========================================
-app.MapRazorPages();
-
-app.MapGet("/", async context =>
-{
-    await Task.Run(() =>
-    {
-        context.Response.Redirect("/Parcels");
-    });
-});
 
 // ==========================================
-// 6. Middleware Pipeline
+// 9. Middleware Pipeline
 // ==========================================
 if (!app.Environment.IsDevelopment())
 {
@@ -109,10 +73,17 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
+
+// ==========================================
+// 10. تنظیم مسیر پیش‌فرض
+// ==========================================
+//app.MapGet("/", context =>
+//{
+//    context.Response.Redirect("/Parcels");
+//    return Task.CompletedTask;
+//});
 
 app.MapRazorPages();
 

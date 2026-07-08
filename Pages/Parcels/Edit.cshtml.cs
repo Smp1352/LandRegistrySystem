@@ -1,7 +1,6 @@
 ﻿// Pages/Parcels/Edit.cshtml.cs
 using LandRegistrySystem.DTOs.Parcel;
 using LandRegistrySystem.Services;
-using LandRegistrySystem.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -21,18 +20,25 @@ namespace LandRegistrySystem.Pages.Parcels
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var parcel = await _parcelService.GetParcelViewDtoByIdAsync(id);
+            // ✅ استفاده از نام صحیح متد
+            var parcel = await _parcelService.GetParcelByIdAsync(id);
             if (parcel == null)
                 return NotFound();
 
-            // Map ViewDto به UpdateDto با تمام فیلدها
+            // Map ViewDto به UpdateDto
             Parcel = new ParcelUpdateDto
             {
                 Id = parcel.Id,
+                ParcelCode = parcel.ParcelCode,
+                PersianName = parcel.PersianName,
+                EnglishName = parcel.EnglishName,
+                Definition = parcel.Definition,
+                FeatureClass = parcel.FeatureClass,
+                FeatureType = parcel.FeatureType,
+                Dimension = parcel.Dimension,
                 X = parcel.X,
                 Y = parcel.Y,
                 Zone = parcel.Zone,
-                ParcelCode = parcel.ParcelCode,
                 PostalCode = parcel.PostalCode,
                 Area = parcel.Area,
                 UniqueParcelCode = parcel.UniqueParcelCode,
@@ -48,7 +54,6 @@ namespace LandRegistrySystem.Pages.Parcels
                 CurrentOperationLandUse = parcel.CurrentOperationLandUse,
                 CropsType = parcel.CropsType,
                 OwnerType = parcel.OwnerType,
-                ShorakaTedad = parcel.ShorakaTedad,
                 OwnerName = parcel.OwnerName,
                 OwnerLastName = parcel.OwnerLastName,
                 OwnerNationalCode = parcel.OwnerNationalCode,

@@ -1,0 +1,85 @@
+﻿@page
+@model LandRegistrySystem.Pages.IndexModel
+@{
+    ViewData["Title"] = "صفحه اصلی";
+}
+
+<div class="container mt-4" dir="rtl">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-4">سامانه ثبت اراضی کشاورزی</h1>
+
+            <div class="row g-4">
+                <!-- کارت مدیریت قطعات -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h5 class="mb-0"><i class="fas fa-map"></i> مدیریت قطعات</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">ثبت، ویرایش و مشاهده اطلاعات قطعات کشاورزی</p>
+                            <a asp-page="/Parcels/Index" class="btn btn-primary">
+                                <i class="fas fa-arrow-left"></i> ورود به بخش قطعات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- کارت مدیریت اشخاص -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-success text-white text-center">
+                            <h5 class="mb-0"><i class="fas fa-users"></i> مدیریت اشخاص</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">ثبت، ویرایش و مشاهده اطلاعات اشخاص</p>
+                            <a asp-page="/Persons/Index" class="btn btn-success">
+                                <i class="fas fa-arrow-left"></i> ورود به بخش اشخاص
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- کارت ثبت شخص جدید -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-warning text-dark text-center">
+                            <h5 class="mb-0"><i class="fas fa-user-plus"></i> ثبت شخص جدید</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">ثبت اطلاعات شخص جدید</p>
+                            <a asp-page="/Persons/Create" class="btn btn-warning">
+                                <i class="fas fa-plus"></i> ثبت شخص جدید
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- کارت گزارشات -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-info text-white text-center">
+                            <h5 class="mb-0"><i class="fas fa-file-alt"></i> گزارشات</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">مشاهده و چاپ گزارشات مختلف</p>
+                            <a asp-page="/Reports/OwnerParcelsReport" class="btn btn-info">
+                                <i class="fas fa-arrow-left"></i> گزارش قطعات متصرف
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- لینک‌های سریع -->
+            <div class="mt-5 text-center">
+                <a asp-page="/Parcels/Create" class="btn btn-outline-primary mx-2">
+                    <i class="fas fa-plus-circle"></i> ثبت قطعه جدید
+                </a>
+                <a asp-page="/Persons/Create" class="btn btn-outline-success mx-2">
+                    <i class="fas fa-user-plus"></i> ثبت شخص جدید
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

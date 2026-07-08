@@ -1,4 +1,4 @@
-// Pages/Parcels/Details.cshtml.cs
+﻿// Pages/Parcels/Details.cshtml.cs
 using LandRegistrySystem.DTOs.Parcel;
 using LandRegistrySystem.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,7 +18,8 @@ namespace LandRegistrySystem.Pages.Parcels
 
         public async Task OnGetAsync(int id)
         {
-            Parcel = await _parcelService.GetParcelViewDtoByIdAsync(id);
+            // ✅ استفاده از نام صحیح متد
+            Parcel = await _parcelService.GetParcelByIdAsync(id);
         }
     }
 }

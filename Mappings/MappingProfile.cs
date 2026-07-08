@@ -11,11 +11,18 @@ namespace LandRegistrySystem.Mappings
     {
         public MappingProfile()
         {
+            // Mappings/MappingProfile.cs
             CreateMap<Person, PersonViewDto>()
                 .ForMember(dest => dest.BirthDatePersian,
                     opt => opt.MapFrom(src => src.BirthDate != null
                         ? src.BirthDate.Value.ToString("yyyy/MM/dd")
-                        : null));
+                        : null))
+                .ForMember(dest => dest.Address,
+                    opt => opt.MapFrom(src => src.Address))
+                .ForMember(dest => dest.Email,
+                    opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.PostalCode,
+                    opt => opt.MapFrom(src => src.PostalCode));
 
             CreateMap<PersonCreateDto, Person>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())

@@ -5,17 +5,27 @@ using LandRegistrySystem.Models.Entities;
 
 namespace LandRegistrySystem.Data.Configuration
 {
+    /// <summary>
+    /// پیکربندی جدول شهرستان‌ها
+    /// </summary>
     public class CountyConfiguration : BaseConfiguration<County>
     {
         public override void Configure(EntityTypeBuilder<County> builder)
         {
-            // فراخوانی تنظیمات پایه
+            // ==========================================
+            // تنظیمات پایه از BaseConfiguration
+            // ==========================================
             base.Configure(builder);
 
-            // تنظیم نام جدول
+            // ==========================================
+            // نام جدول
+            // ==========================================
             builder.ToTable("Counties");
 
-            // تنظیم فیلدها
+            // ==========================================
+            // فیلدها
+            // ==========================================
+
             builder.Property(c => c.Name)
                    .HasMaxLength(50)
                    .IsRequired()
@@ -31,7 +41,10 @@ namespace LandRegistrySystem.Data.Configuration
                    .IsRequired(false)
                    .HasComment("شناسه استان");
 
+            // ==========================================
             // ایندکس‌ها
+            // ==========================================
+
             builder.HasIndex(c => c.Code)
                    .IsUnique()
                    .HasDatabaseName("IX_County_Code");
@@ -42,9 +55,13 @@ namespace LandRegistrySystem.Data.Configuration
             builder.HasIndex(c => c.ProvinceId)
                    .HasDatabaseName("IX_County_ProvinceId");
 
-            // ترکیب ایندکس
+            // ایندکس ترکیبی
             builder.HasIndex(c => new { c.ProvinceId, c.Name })
                    .HasDatabaseName("IX_County_ProvinceId_Name");
+
+            // ==========================================
+            // روابط
+            // ==========================================
 
             // رابطه با Province
             builder.HasOne(c => c.Province)

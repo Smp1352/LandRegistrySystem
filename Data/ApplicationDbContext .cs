@@ -11,20 +11,25 @@ namespace LandRegistrySystem.Data
         {
         }
 
-        // ===== DbSet‌های اصلی =====
-        public DbSet<Parcel> Parcels { get; set; }
-        public DbSet<Person> Persons { get; set; }
+        // ==========================================
+        // DbSet‌ها
+        // ==========================================
+
         public DbSet<Province> Provinces { get; set; }
         public DbSet<County> Counties { get; set; }
         public DbSet<Village> Villages { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Parcel> Parcels { get; set; }
+        public DbSet<ParcelOwner> ParcelOwners { get; set; }
+        public DbSet<ParcelOperator> ParcelOperators { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
         public DbSet<CropType> CropTypes { get; set; }
         public DbSet<LandUse> LandUses { get; set; }
-        public DbSet<Attachment> Attachments { get; set; }
-        public DbSet<AuditLog> AuditLogs { get; set; }
 
-        // ===== DbSet‌های رابط Many-to-Many =====
-        public DbSet<ParcelOwner> ParcelOwners { get; set; }      // ✅ اضافه کنید
-        public DbSet<ParcelOperator> ParcelOperators { get; set; } // ✅ اضافه کنید
+        // ==========================================
+        // اعمال Configurations
+        // ==========================================
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

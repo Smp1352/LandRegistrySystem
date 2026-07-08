@@ -1,15 +1,13 @@
 ﻿// DTOs/Parcel/ParcelCreateDto.cs
-using LandRegistrySystem.Models.Enums;
 using System.ComponentModel.DataAnnotations;
-using LandRegistrySystem.Validators;
+using LandRegistrySystem.Models.Enums;
 
 namespace LandRegistrySystem.DTOs.Parcel
 {
     public class ParcelCreateDto
     {
-        
         // ==========================================
-        // اطلاعات توصیفی - TDB (فایل Shape)
+        // اطلاعات توصیفی TDB
         // ==========================================
 
         [Display(Name = "مختصات X مرکز قطعه")]
@@ -27,6 +25,7 @@ namespace LandRegistrySystem.DTOs.Parcel
 
         [Display(Name = "کدپستی قطعه")]
         [MaxLength(20)]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "کدپستی باید 10 رقم باشد")]
         public string? PostalCode { get; set; }
 
         [Display(Name = "مساحت (مترمربع)")]
@@ -77,7 +76,7 @@ namespace LandRegistrySystem.DTOs.Parcel
         public int? BakhshSabti { get; set; }
 
         // ==========================================
-        // اطلاعات کاربری و بهره‌برداری
+        // اطلاعات کاربری
         // ==========================================
 
         [Display(Name = "بهره برداری فعلی قطعه")]
@@ -86,103 +85,92 @@ namespace LandRegistrySystem.DTOs.Parcel
 
         [Display(Name = "نوع محصول")]
         [MaxLength(50)]
-        public string? CropsType { get; set; }  // ✅ این خاصیت را اضافه کنید
+        public string? CropsType { get; set; }
 
-   
         // ==========================================
         // اطلاعات مالک (متصرف)
         // ==========================================
 
-        
-      
-
-        [Display(Name = "ادله و امارات مالکیت متصرف")]
-        [MaxLength(500)]
-        public string? OwnershipProof { get; set; }
-
-        [Display(Name = "سایر ادله و امارات")]
-        [MaxLength(200)]
-        public string? OwnershipProofOther { get; set; }
-
-        [Display(Name = "نوع متصرف")]
-        [MaxLength(5)]
-        public OwnerType? OwnerType { get; set; }
-        public OwnershipUnit? OwnershipUnit { get; set; }
-
-
-        [Display(Name = "تعداد شرکا")]
+        [Display(Name = "کدملی مالک")]
         [MaxLength(10)]
-        public string? ShorakaTedad { get; set; }
-
-        [Display(Name = "نام متصرف")]
-        [MaxLength(50)]
-        public string? OwnerName { get; set; }
-
-        [Display(Name = "نام خانوادگی متصرف")]
-        [MaxLength(50)]
-        public string? OwnerLastName { get; set; }
-
-        [Display(Name = "کدملی متصرف")]
-        [MaxLength(50)]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "کدملی باید 10 رقم باشد")]
         public string? OwnerNationalCode { get; set; }
 
-        [Display(Name = "شماره همراه متصرف")]
-        [MaxLength(15)]
+        [Display(Name = "نام مالک")]
+        [MaxLength(100)]
+        public string? OwnerName { get; set; }
+
+        [Display(Name = "نام خانوادگی مالک")]
+        [MaxLength(100)]
+        public string? OwnerLastName { get; set; }
+
+        [Display(Name = "شماره همراه مالک")]
+        [MaxLength(100)]
         [RegularExpression(@"^09\d{9}$", ErrorMessage = "شماره همراه باید با 09 شروع شود و 11 رقم باشد")]
         public string? OwnerMobile { get; set; }
 
-        [Display(Name = "نام پدر متصرف")]
+        [Display(Name = "نام پدر مالک")]
         [MaxLength(50)]
         public string? OwnerFatherName { get; set; }
 
-        [Display(Name = "تاریخ تولد متصرف")]
-        [RegularExpression(@"^\d{4}/\d{2}/\d{2}$",
-          ErrorMessage = "فرمت تاریخ باید yyyy/MM/dd باشد")]
-        [PersianDateValidation(ErrorMessage = "تاریخ تولد متصرف معتبر نیست")]
+        [Display(Name = "تاریخ تولد مالک")]
+        [RegularExpression(@"^[1-4]\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])$",
+            ErrorMessage = "فرمت تاریخ باید yyyy/MM/dd باشد")]
         public string? OwnerBirthdayPersian { get; set; }
 
+        [Display(Name = "نوع متصرف")]
+        public OwnerType? OwnerType { get; set; }
+
+        // ✅ اضافه کنید
+        [Display(Name = "تعداد شرکا")]
+        [MaxLength(10)]
+        [RegularExpression(@"^\d+$", ErrorMessage = "تعداد شرکا باید عدد باشد")]
+        public string? ShorakaTedad { get; set; }
+
+        [Display(Name = "نوع مالکیت")]
+        public OwnershipUnit? OwnershipUnit { get; set; }
 
         [Display(Name = "تعداد سهم مالکیت")]
         [Range(0, double.MaxValue, ErrorMessage = "تعداد سهم باید عدد مثبت باشد")]
         public double? OwnershipQuantity { get; set; }
- 
+
+        [Display(Name = "ادله و امارات مالکیت")]
+        [MaxLength(500)]
+        public string? OwnershipProof { get; set; }
 
         // ==========================================
         // اطلاعات بهره‌بردار
         // ==========================================
 
-        [Display(Name = "نام بهره بردار")]
-        [MaxLength(50)]
-        public string? OperatorName { get; set; }
-
-        [Display(Name = "نام خانوادگی بهره بردار")]
-        [MaxLength(50)]
-        public string? OperatorLastName { get; set; }
-
-        [Display(Name = "کدملی بهره بردار")]
-        [MaxLength(15)]
+        [Display(Name = "کدملی بهره‌بردار")]
+        [MaxLength(10)]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "کدملی باید 10 رقم باشد")]
         public string? OperatorNationalCode { get; set; }
 
-        [Display(Name = "شماره همراه بهره بردار")]
+        [Display(Name = "نام بهره‌بردار")]
+        [MaxLength(100)]
+        public string? OperatorName { get; set; }
+
+        [Display(Name = "نام خانوادگی بهره‌بردار")]
+        [MaxLength(100)]
+        public string? OperatorLastName { get; set; }
+
+        [Display(Name = "شماره همراه بهره‌بردار")]
         [MaxLength(15)]
         [RegularExpression(@"^09\d{9}$", ErrorMessage = "شماره همراه باید با 09 شروع شود و 11 رقم باشد")]
         public string? OperatorMobile { get; set; }
 
-        [Display(Name = "نام پدر بهره بردار")]
-        [MaxLength(50)]
+        [Display(Name = "نام پدر بهره‌بردار")]
+        [MaxLength(100)]
         public string? OperatorFatherName { get; set; }
 
-        [Display(Name = "تاریخ تولد بهره بردار")]
-        [RegularExpression(@"^\d{4}/\d{2}/\d{2}$",
-           ErrorMessage = "فرمت تاریخ باید yyyy/MM/dd باشد")]
-        [PersianDateValidation(ErrorMessage = "تاریخ تولد بهره بردار معتبر نیست")]
+        [Display(Name = "تاریخ تولد بهره‌بردار")]
+        [RegularExpression(@"^[1-4]\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])$",
+            ErrorMessage = "فرمت تاریخ باید yyyy/MM/dd باشد")]
         public string? OperatorBirthdayPersian { get; set; }
 
-
-        [Display(Name = "رابطه حقوقی بهره بردار با مالک")]
-        [MaxLength(50)]
+        [Display(Name = "رابطه حقوقی بهره‌بردار با مالک")]
+        [MaxLength(100)]
         public string? RelationOwnerOperator { get; set; }
 
         [Display(Name = "روش احراز تصرفات")]
